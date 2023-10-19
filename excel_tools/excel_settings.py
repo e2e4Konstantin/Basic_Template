@@ -1,6 +1,8 @@
 import os
 import openpyxl
-from openpyxl.styles import NamedStyle
+from openpyxl.styles import NamedStyle, DEFAULT_FONT
+from openpyxl.worksheet import worksheet
+
 
 from file_tools import output_message_exit, output_message, file_unused
 
@@ -28,6 +30,8 @@ class ExcelControl:
         """ Создает экземпляр рабочей книги excel. """
         try:
             self.book = openpyxl.Workbook()
+            DEFAULT_FONT.font = "Calibri"
+            DEFAULT_FONT.sz = 8
         except IOError as err:
             output_message_exit(f"Ошибка при создании excel файла: {self.file_name!r}", f"{err}")
 
@@ -55,10 +59,11 @@ class ExcelControl:
 
     def styles_init(self, styles: dict[str:NamedStyle]):
         """ Добавляет в список стилей книги переданные в словаре стили. """
-        items = styles.keys()
-        for item in items:
-            if not (item in self.book.named_styles):
-                self.book.add_named_style(styles[item])
+        for style in styles:
+            # if not (style in self.book.named_styles):
+            #     self.book.add_named_style(style)
+            if style.name not in self.book.style_names:
+                self.book.add_named_style(style)
 
 
 if __name__ == "__main__":
