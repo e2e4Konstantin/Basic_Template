@@ -1,5 +1,4 @@
 
-
 from excel_tools import create_basic_template
 
 
@@ -13,7 +12,3 @@ if __name__ == '__main__':
 
     print(f"Создание шаблона. Период: {period} Глава: {chapter!r}")
     create_basic_template(db_file_name, excel_file_name, chapter, period)
-
-
-
-

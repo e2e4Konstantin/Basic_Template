@@ -25,4 +25,13 @@ sql_selects = {
         WHERE id_parent <> ID_tblCatalog and id_parent = ?;
         """,
 
+    "select_parent_catalog_extra": """
+        SELECT
+            ID_tblCatalog, period, code, item.name AS item, item.rank AS "rank" , description, raw_parent, ID_parent,  FK_tblCatalogs_tblCatalogItems
+            FROM tblCatalogs 
+            LEFT JOIN tblCatalogItems AS item ON item.ID_tblCatalogItem = FK_tblCatalogs_tblCatalogItems
+            WHERE id_parent <> ID_tblCatalog and id_parent = ?
+            ORDER BY rank;
+        """,
+
 }

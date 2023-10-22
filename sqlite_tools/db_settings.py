@@ -74,9 +74,10 @@ class dbControl:
 
     def run_execute(self, *args, **kwargs):
         try:
-            self.cursor.execute(*args, **kwargs)
+            return self.connection.execute(*args, **kwargs)
         except sqlite3.Error as error:
             print(f"SQLite error: {' '.join(error.args)}")
+            return None
             # print(f"Exception class is: {error.__class__}")
             # print('SQLite traceback: ')
             # exc_type, exc_value, exc_tb = sys.exc_info()
