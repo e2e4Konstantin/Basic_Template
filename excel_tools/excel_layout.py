@@ -17,6 +17,9 @@ headers = {
     'N1': 'Атрибуты',
     'P1': 'Название параметра',
 
+    'N:O': ['элемент', 'материал'],
+
+
     'K': 'основная',
     'L': 'родитель',
     'M': 'алгоритм',
@@ -29,10 +32,10 @@ width_columns = {'A': 6, 'B': 6, 'C': 6, 'D': 9, 'E': 11, 'F': 9, 'G': 50, 'H': 
 
 fonts = {
     "title_basic": Font(name="Calibri", sz=8, family=2, b=False, i=False, color=Color(theme=1), scheme="minor"),
-    "chapter_line": Font(name="Calibri", sz=8, family=2, b=False, i=False, color=Color(rgb='00D35400'), scheme="minor"),
-    "collection_line": Font(name="Calibri", sz=8, family=2, b=False, i=False, color=Color(rgb='001F618D'), scheme="minor"),
-    "section_line": Font(name="Calibri", sz=8, family=2, b=False, i=False, color=Color(rgb='005B2C6F'), scheme="minor"),
-    "subsection_line": Font(name="Calibri", sz=8, family=2, b=False, i=False, color=Color(rgb='00145A32'), scheme="minor"),
+    "chapter_line": Font(name="Calibri", sz=8, family=2, b=False, i=False, color=Color(rgb='0060497A'), scheme="minor"),
+    "collection_line": Font(name="Calibri", sz=8, family=2, b=False, i=False, color=Color(rgb='00963634'), scheme="minor"),
+    "section_line": Font(name="Calibri", sz=8, family=2, b=False, i=False, color=Color(rgb='004F6228'), scheme="minor"),
+    "subsection_line": Font(name="Calibri", sz=8, family=2, b=False, i=False, color=Color(rgb='00366092'), scheme="minor"),
     "table_line": Font(name="Calibri", sz=8, family=2, b=False, i=False, color=Color(rgb='001B2631'), scheme="minor"),
     "quote_line": Font(name="Calibri", sz=8, family=2, b=False, i=False, color=Color(theme=1), scheme="minor"),
 
@@ -40,9 +43,19 @@ fonts = {
 
     "title_attributes": Font(name="Calibri", sz=8, family=2, b=False, i=False, color=Color(theme=1), scheme="minor"),
 
-    "quote_code_font": Font(name="Calibri", sz=8, family=2, b=True, i=False, color=Color(rgb='00000000'), scheme="minor"),
+    "bold_font": Font(name="Calibri", sz=8, family=2, b=True, i=False),
     "measure_font": Font(name="Calibri", sz=8, family=2, b=True, i=False, color=Color(rgb='0060497A'), scheme="minor"),
-    "title_parameters": Font(name="Calibri", sz=8, family=2, b=True, i=False, color=Color(rgb='00000000'), scheme="minor"),
+    "title_parameters": Font(name="Calibri", sz=8, family=2, b=False, i=False, color=Color(rgb='00000000'), scheme="minor"),
+
+    "grey_font": Font(name="Calibri", sz=8, family=2, b=False, i=False, color=Color(rgb='00808080')),
+
+    "chapter_bold": Font(name="Calibri", sz=8, family=2, b=True, i=False, color=Color(rgb='0060497A'), scheme="minor"),
+    "collection_bold": Font(name="Calibri", sz=8, family=2, b=True, i=False, color=Color(rgb='00963634'), scheme="minor"),
+    "section_bold": Font(name="Calibri", sz=8, family=2, b=True, i=False, color=Color(rgb='004F6228'), scheme="minor"),
+    "subsection_bold": Font(name="Calibri", sz=8, family=2, b=True, i=False, color=Color(rgb='00366092'), scheme="minor"),
+
+
+
 
 }
 
@@ -85,10 +98,10 @@ borders = {
 fills = {
     "title_basic": PatternFill(patternType="solid", fill_type="solid", fgColor=Color(rgb="00FAFAF4")),
 
-    "chapter_line": PatternFill(patternType=None, fill_type=None, fgColor=Color(rgb="00FFFFFF")),
-    "collection_line": PatternFill(patternType=None, fill_type=None, fgColor=Color(rgb="00FFFFFF")),
-    "section_line": PatternFill(patternType=None, fill_type=None, fgColor=Color(rgb="00FFFFFF")),
-    "subsection_line": PatternFill(patternType=None, fill_type=None, fgColor=Color(rgb="00FFFFFF")),
+    "chapter_line": PatternFill(patternType="solid", fill_type="solid", fgColor=Color(rgb="00E4E2EC")),
+    "collection_line": PatternFill(patternType="solid", fill_type="solid", fgColor=Color(rgb="00ECDFEB")),
+    "section_line": PatternFill(patternType="solid", fill_type="solid", fgColor=Color(rgb="00E7ECDF")),
+    "subsection_line": PatternFill(patternType="solid", fill_type="solid", fgColor=Color(rgb="00DFECEB")),
     "table_line": PatternFill(patternType="solid", fill_type="solid", fgColor=Color(rgb="00EEF3F8")),
     "quote_line": PatternFill(patternType=None, fill_type=None, fgColor=Color(rgb="00FFFFFF")),
 

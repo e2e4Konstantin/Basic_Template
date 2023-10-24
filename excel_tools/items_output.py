@@ -22,7 +22,8 @@ def _chapter_line_output(data: sqlite3.Row, sheet: worksheet, row: int, group_nu
     # ставим группировку
     sheet.row_dimensions.group(row, row + 2, outline_level=group_number)
     # ставим стили
-    _range_decorating(sheet, row, ['A', 'B', 'C', 'D', 'E', 'F', 'G'], 'chapter_line')
+    _range_decorating(sheet, row, ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'], 'chapter_line')
+    sheet.cell(row=row, column=column_index_from_string('A')).font = fonts["chapter_bold"]
     return row + 1
 
 
@@ -39,10 +40,11 @@ def _collection_line_output(data: sqlite3.Row, sheet: worksheet, row: int, group
     # ставим группировку
     sheet.row_dimensions.group(row, row + 1, outline_level=group_number)
     # ставим стили
-    columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+    columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
     for column in columns:
         sheet.cell(row=row, column=column_index_from_string(column)).style = 'collection_line'
         sheet.cell(row=row, column=column_index_from_string(column)).number_format = numbers.FORMAT_TEXT
+    sheet.cell(row=row, column=column_index_from_string('B')).font = fonts["collection_bold"]
     return row + 1
 
 
@@ -60,10 +62,11 @@ def _section_line_output(data: sqlite3.Row, sheet: worksheet, row: int, group_nu
     # ставим группировку
     sheet.row_dimensions.group(row, row + 1, outline_level=group_number)
 
-    columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+    columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
     for column in columns:
         sheet.cell(row=row, column=column_index_from_string(column)).style = 'section_line'
         sheet.cell(row=row, column=column_index_from_string(column)).number_format = numbers.FORMAT_TEXT
+    sheet.cell(row=row, column=column_index_from_string('C')).font = fonts["section_bold"]
     return row + 1
 
 
@@ -82,10 +85,11 @@ def _subsection_line_output(data: sqlite3.Row, sheet: worksheet, row: int, group
     # ставим группировку
     sheet.row_dimensions.group(row, row + 1, outline_level=group_number)
 
-    columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+    columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
     for column in columns:
         sheet.cell(row=row, column=column_index_from_string(column)).style = 'subsection_line'
         sheet.cell(row=row, column=column_index_from_string(column)).number_format = numbers.FORMAT_TEXT
+    sheet.cell(row=row, column=column_index_from_string('D')).font = fonts["subsection_bold"]
     return row + 1
 
 
@@ -115,6 +119,12 @@ def _table_line_output(data: sqlite3.Row, sheet: worksheet, row: int, group_numb
         sheet.cell(row=row, column=column_index_from_string(column)).style = 'table_line'
         sheet.cell(row=row, column=column_index_from_string(column)).number_format = numbers.FORMAT_TEXT
 
+    columns = ['A', 'B', 'C', 'D']
+    for column in columns:
+        sheet.cell(row=row, column=column_index_from_string(column)).font = fonts['grey_font']
+    sheet.cell(row=row, column=column_index_from_string('E')).font = fonts["bold_font"]
+
+
     column = column_index_from_string('K')
     sheet.cell(row=row - 1, column=column).value = headers['K1']
     sheet.cell(row=row - 1, column=column).style = 'extension_quotes'
@@ -126,9 +136,24 @@ def _table_line_output(data: sqlite3.Row, sheet: worksheet, row: int, group_numb
     for column in ['K', 'L', 'M']:
         sheet.cell(row=row, column=column_index_from_string(column)).style = 'extension_quotes'
 
-    column = column_index_from_string('N')
-    sheet.cell(row=row - 1, column=column).value = headers['N1']
-    sheet.cell(row=row - 1, column=column).style = 'title_attributes'
+    sheet.cell(row=row - 1, column=column_index_from_string('N')).value = headers['N1']
+    sheet.cell(row=row, column=column_index_from_string('N')).value = headers['N:O'][0]
+    sheet.cell(row=row, column=column_index_from_string('O')).value = headers['N:O'][1]
+
+    sheet.cell(row=row - 1, column=column_index_from_string('N')).style = 'title_attributes'
+    sheet.cell(row=row, column=column_index_from_string('O')).style = 'title_attributes'
+    sheet.cell(row=row, column=column_index_from_string('N')).style = 'title_attributes'
+    sheet.merge_cells(f"N{row-1}:O{row-1}")
+
+
+
+
+
+
+
+
+
+
     return row + 1
 
 
@@ -158,10 +183,17 @@ def quote_line_output(data: sqlite3.Row, sheet: worksheet, row: int, group_numbe
         sheet.cell(row=row, column=column_index_from_string(column)).style = 'quote_line'
         sheet.cell(row=row, column=column_index_from_string(column)).number_format = numbers.FORMAT_TEXT
 
+    columns = ['A', 'B', 'C', 'D', 'E']
+    for column in columns:
+        sheet.cell(row=row, column=column_index_from_string(column)).font = fonts['grey_font']
+
+
+
+
     sheet.cell(row=row, column=column_index_from_string('I')).alignment = alignments["right_alignment"]
     sheet.cell(row=row, column=column_index_from_string('J')).alignment = alignments["center_alignment"]
 
-    sheet.cell(row=row, column=column_index_from_string('F')).font = fonts["quote_code_font"]
+    sheet.cell(row=row, column=column_index_from_string('F')).font = fonts["bold_font"]
     sheet.cell(row=row, column=column_index_from_string('H')).font = fonts["measure_font"]
     return row + 1
 
