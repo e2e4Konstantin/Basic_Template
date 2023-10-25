@@ -37,3 +37,19 @@ sql_selects = {
     "select_quotes_for_id_table": """SELECT * FROM tblQuotes WHERE FK_tblQuotes_tblCatalogs = ?;""",
 
 }
+
+sql_counts = {
+    "count_items_period_code": """
+        SELECT period, i.name AS item, COUNT(*) AS count
+        FROM tblCatalogs AS c 
+        LEFT JOIN tblCatalogItems AS i ON i.ID_tblCatalogItem = c.FK_tblCatalogs_tblCatalogItems 
+        WHERE c.period = ? and c.code LIKE ?
+        GROUP by i.name
+        ORDER BY i."rank" DESC;
+    """,
+
+    "count_quotes_period_code": """
+        SELECT COUNT(*) AS count FROM tblQuotes WHERE period = ? and code LIKE ?;
+    """,
+
+}

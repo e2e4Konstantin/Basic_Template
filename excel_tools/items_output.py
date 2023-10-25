@@ -144,16 +144,6 @@ def _table_line_output(data: sqlite3.Row, sheet: worksheet, row: int, group_numb
     sheet.cell(row=row, column=column_index_from_string('O')).style = 'title_attributes'
     sheet.cell(row=row, column=column_index_from_string('N')).style = 'title_attributes'
     sheet.merge_cells(f"N{row-1}:O{row-1}")
-
-
-
-
-
-
-
-
-
-
     return row + 1
 
 
@@ -177,7 +167,9 @@ def quote_line_output(data: sqlite3.Row, sheet: worksheet, row: int, group_numbe
     sheet.cell(row=row, column=column_index_from_string('F')).value = data['code']         # код расценки
     sheet.cell(row=row, column=column_index_from_string('G')).value = data['description']  # текст расценки
     sheet.cell(row=row, column=column_index_from_string('H')).value = data['measure']      # измеритель
-    sheet.cell(row=row, column=column_index_from_string('I')).value = data['statistics']   # статистика
+
+    stat = data['statistics'] if data['statistics'] != 0 else ""
+    sheet.cell(row=row, column=column_index_from_string('I')).value = stat   # статистика
 
     for column in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L']:
         sheet.cell(row=row, column=column_index_from_string(column)).style = 'quote_line'

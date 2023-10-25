@@ -1,10 +1,21 @@
+import os
+import datetime
 from excel_tools import create_basic_template
 
 if __name__ == '__main__':
     period = 68
-    chapter = '6'
-    excel_file_name = r".\output\template.xlsx"
+    chapter = '10'
+    output_file_name = r".\output\template.xlsx"
+    root, ext = os.path.splitext(output_file_name)
+    excel_file_name = f"{root}_{chapter}_{period}-{datetime.date.today().strftime('%d-%m-%Y')}{ext}"
+
     db_file_name = r".\src\Quotes.sqlite"
 
-    print(f"Создание шаблона. Период: {period} Глава: {chapter!r}")
+    print(f"Создание шаблона. Период: {period} Глава: {chapter!r} Файл: {excel_file_name}")
     create_basic_template(db_file_name, excel_file_name, chapter, period)
+
+
+
+
+
+
