@@ -4,7 +4,7 @@ from openpyxl.styles import numbers
 import sqlite3
 
 from file_tools import output_message
-from items_tools import split_code_name
+from items_tools import split_code_quote
 from excel_tools.excel_layout import headers, alignments, fonts
 
 
@@ -51,7 +51,7 @@ def _collection_line_output(data: sqlite3.Row, sheet: worksheet, row: int, group
 def _section_line_output(data: sqlite3.Row, sheet: worksheet, row: int, group_number: int) -> int:
     """ Записывает данные об 'Отделе' на лист sheet в строку row. """
 
-    divided_code = split_code_name(data['code'])
+    divided_code =  split_code_quote(data['code'])
     sheet.cell(row=row, column=column_index_from_string('A')).value = divided_code.chapter
     sheet.cell(row=row,
                column=column_index_from_string('B')).value = f"{divided_code.chapter}.{divided_code.collection}"
@@ -73,7 +73,7 @@ def _section_line_output(data: sqlite3.Row, sheet: worksheet, row: int, group_nu
 def _subsection_line_output(data: sqlite3.Row, sheet: worksheet, row: int, group_number: int) -> int:
     """ Записывает данные о Разделе на лист sheet в строку row. """
 
-    divided_code = split_code_name(data['code'])
+    divided_code =  split_code_quote(data['code'])
     sheet.cell(row=row, column=column_index_from_string('A')).value = divided_code.chapter
     sheet.cell(row=row,
                column=column_index_from_string('B')).value = f"{divided_code.chapter}.{divided_code.collection}"
@@ -96,7 +96,7 @@ def _subsection_line_output(data: sqlite3.Row, sheet: worksheet, row: int, group
 def _table_line_output(data: sqlite3.Row, sheet: worksheet, row: int, group_number: int) -> int:
     """ Записывает данные о 'Таблице' на лист sheet в строку row. """
 
-    divided_code = split_code_name(data['code'])
+    divided_code =  split_code_quote(data['code'])
     # две строки на таблицу
     row += 1
     collection_code = f"{divided_code.chapter}.{divided_code.collection}"
@@ -150,7 +150,7 @@ def _table_line_output(data: sqlite3.Row, sheet: worksheet, row: int, group_numb
 def quote_line_output(data: sqlite3.Row, sheet: worksheet, row: int, group_number: int) -> int:
     """ Записывает данные о 'Расценке' на лист sheet в строку row. """
 
-    divided_code = split_code_name(data['absolute_code'])
+    divided_code =  split_code_quote(data['absolute_code'])
     sheet.row_dimensions.group(row, row + 1, outline_level=group_number)
 
     # 6.51-1-1-0-1-1

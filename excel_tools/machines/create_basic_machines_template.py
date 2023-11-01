@@ -1,0 +1,26 @@
+from excel_tools.excel_settings import ExcelControl
+from excel_tools.machines.excel_machines_layout import machines_styles
+from excel_tools.machines.basic_machine_header_output import basic_machine_header_output
+from excel_tools.machines.chapter_machines_output import chapter_machines_output
+from excel_tools.count_statistic import count_statistic_output
+
+
+def create_basic_machines_template(db_file_name: str, excel_file_name: str, chapter_code: str, period: int, grid: bool = False):
+    """ Создает шаблон для параметризации 'машин', глава 'chapter' периода 'period'. """
+
+    with ExcelControl(excel_file_name) as exl:
+        exl.create_sheets(["data", "statistics"])  # создать листы книги
+        exl.set_sheet_grid(sheet_name="data", grid=False)  # убрать сетку
+        exl.book['data'].sheet_properties.outlinePr.summaryBelow = False  # группировка сверху
+        exl.styles_init(machines_styles.values())  # загрузить стили оформления
+        exl.sheet = exl.book['data']
+        basic_machine_header_output(exl.sheet)  # выводим в файл основную шапку
+
+        start_chapter_row = 4
+        chapter_machines_output(exl.sheet, db_file_name, start_chapter_row, chapter_code, period)
+        #
+        # exl.sheet = exl.book['statistics']
+        # count_statistic_output(exl.sheet, db_file_name, 5, chapter_code, period)
+
+        # # вставляем один столбец
+        # ex.sheet.insert_cols(1)

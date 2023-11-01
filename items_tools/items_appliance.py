@@ -13,12 +13,20 @@ def split_code_int(src_code: str):
     return tuple(map(int, re.split('[.-]', src_code))) if src_code else tuple()
 
 
-def split_code_name(src_code: str) -> config.ItemCode:
-    """ Разбивает шифр на части из строк.
+def split_code_quote(src_code: str) -> config.ItemQuoteCode:
+    """ Разбивает шифр расценки на части из строк.
         '4.1-2-10' -> ('4', '1', '2', '10').
         Возвращает именованный кортеж.
      """
-    return config.ItemCode(*split_code(src_code))
+    return config.ItemQuoteCode(*split_code(src_code))
+
+
+def split_code_machine(src_code: str) -> config.ItemMachineCode:
+    """ Разбивает шифр расценки на части из строк.
+        '4.1-2-10' -> ('4', '1', '2', '10').
+        Возвращает именованный кортеж.
+     """
+    return config.ItemMachineCode(*split_code(src_code))
 
 
 if __name__ == "__main__":
@@ -27,12 +35,10 @@ if __name__ == "__main__":
     chapter_code = "6"
     quote_code = "6.62-1-4-0-41-99"
 
-    print(f"{table_code} -> {split_code_name(table_code)}")
-    print(f"{subsection_code} -> {split_code_name(subsection_code)}")
-    print(f"{chapter_code} -> {split_code_name(chapter_code)}")
-    print(f"{quote_code} -> {split_code_name(quote_code)}")
+    machine_code = "2.1-1-12"
+    print(f"{machine_code} -> {split_code_machine(machine_code)}")
 
-
-
-
-
+    print(f"{table_code} -> {split_code_quote(table_code)}")
+    print(f"{subsection_code} -> {split_code_quote(subsection_code)}")
+    print(f"{chapter_code} -> {split_code_quote(chapter_code)}")
+    print(f"{quote_code} -> {split_code_quote(quote_code)}")

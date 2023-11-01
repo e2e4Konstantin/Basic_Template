@@ -1,2 +1,2 @@
-from config.config_settings import ItemCode
+from config.config_settings import ItemQuoteCode, ItemMachineCode
 
