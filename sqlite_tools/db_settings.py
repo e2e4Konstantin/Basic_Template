@@ -35,8 +35,10 @@ class dbControl:
             self.connection = sqlite3.connect(self.path, check_same_thread=False)
             self.connection.row_factory = sqlite3.Row
             self.cursor = self.connection.cursor()
-
             self.connection.create_function("REGEXP", 2, self.regex)
+
+            self.connection.execute("PRAGMA synchronous = NORMAL")
+
         except sqlite3.Error as err:
             self.close(err)
             output_message_exit(f"ошибка открытия БД Sqlite3: {err}", f"{self.path}")

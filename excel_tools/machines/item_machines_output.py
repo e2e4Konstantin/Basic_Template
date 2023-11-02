@@ -99,8 +99,8 @@ def machine_line_output(data: sqlite3.Row, sheet: worksheet, row: int, group_num
     return row + 1
 
 
-def item_machines_output(sheet: worksheet, data: sqlite3.Row, start_row: int) -> int:
-    """ Выводит данные об объекте каталога Машин"""
+def output_machine_catalog_object(sheet: worksheet, data: sqlite3.Row, start_row: int) -> int:
+    """ Выводит данные об объекте каталога Машин в excel файл. """
     row = start_row
     match data['item']:
         case "глава":

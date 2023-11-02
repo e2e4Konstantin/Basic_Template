@@ -18,4 +18,15 @@ sql_machines = {
         SELECT * FROM tblMachines WHERE FK_tblMachines_tblMachinesCatalog = ?;
         """,
 
+    "count_catalog_period_code_mask": """
+        SELECT c.period, c.code, i.name AS item, COUNT(*) AS count
+        FROM tblMachinesCatalog AS c 
+        LEFT JOIN tblMachineItems AS i ON i.ID_tblMachineItem = ID_tblMachinesCatalog_tblMachineItems 
+        WHERE c.period = ? and c.code LIKE ?
+        GROUP by i.name
+        ORDER BY i.rating DESC;
+        """,
+    "count_machines_period_code": """
+        SELECT COUNT(*) AS count FROM tblMachines AS m  WHERE period = ? and code LIKE ?;  
+        """
 }

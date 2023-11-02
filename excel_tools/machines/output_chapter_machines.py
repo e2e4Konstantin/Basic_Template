@@ -4,16 +4,16 @@ from sqlite_tools import dbControl, sql_machines
 
 from file_tools import output_message_exit, output_message
 from items_tools import split_code_int
-from excel_tools.machines.item_machines_output import item_machines_output, machine_line_output
+from excel_tools.machines.item_machines_output import output_machine_catalog_object, machine_line_output
 from icecream import ic, DEFAULT_CONTEXT_DELIMITER
 
 
-def _slaves_machines_output(sheet: worksheet, db: dbControl, master_id: int, start_row: int) -> int:
-    """ Из БД таблицы tbl получает строки у которых FK_tblQuotes_tblCatalogs == master_id.
-        Машины у которых внешний ключ равен искомому.
-        Сортирует их по шифру, выводит.
+def _output_slave_machines(sheet: worksheet, db: dbControl, parent_id: int, start_row: int) -> int:
+    """ Из БД таблицы Машин получает строки у которых ссылка на каталог равна parent_id.
+        Машины у которых внешний ключ равен parent_id.
+        Сортирует их по шифру, выводит в excel файл.
     """
-    result = db.run_execute(sql_machines["select_machines_catalog_id"], (master_id,))
+    result = db.run_execute(sql_machines["select_machines_catalog_id"], (parent_id,))
     lines = result.fetchall()
     row = start_row
     if lines:
@@ -29,33 +29,36 @@ def _slaves_machines_output(sheet: worksheet, db: dbControl, master_id: int, sta
     return row
 
 
-def _slaves_item_output(sheet: worksheet, db: dbControl, master_id: int, start_row: int) -> int:
+def _output_slave_catalog_object(sheet: worksheet, db: dbControl, master_id: int, start_row: int) -> int:
     """ Рекурсивная функция. Из БД таблицы tblMachinesCatalog получает строки у которых родитель == master_id,
         сортирует их по шифру, выводит их и запрашивает вывод 'нижестоящей'.
     """
+    # получить подчиненные объекты каталога, у которых ID_parent = master_id
     result = db.run_execute(sql_machines["select_catalog_parent"], (master_id,))
     if result:
         lines = result.fetchall()
         row = start_row
         if lines:
+            #
             items = [x for x in lines]
             items.sort(key=lambda x: split_code_int(x['code']))
             for item in items:
-                row = item_machines_output(sheet, item, row)
+                row = output_machine_catalog_object(sheet, item, row)
                 item_id = item["ID_tblMachinesCatalog"]
-                row = _slaves_machines_output(sheet, db, item_id, start_row=row)
-                row = _slaves_item_output(sheet, db, item_id, start_row=row)
+                row = _output_slave_machines(sheet, db, item_id, start_row=row)
+                row = _output_slave_catalog_object(sheet, db, item_id, start_row=row)
             return row
-        else:
-            output_message_exit(f"в каталоге МАШИН для для {master_id}", f"не найдено ни одного потомка.")
-    else:
-        output_message_exit(f"в каталоге МАШИН для для {master_id}", f"не найдено ни одного потомка.")
+    #     else:
+    #         output_message(f"в каталоге МАШИН для для ID_parent = {master_id}", f"не найдено ни одного потомка.")
+    # else:
+    #     output_message(f"в каталоге МАШИН для для {master_id}", f"не найдено ни одного потомка.")
     return start_row
 
 
-def chapter_machines_output(sheet: worksheet, db_file_name: str, start_line: int, chapter_code: str, period: int) -> bool:
+def output_chapter_machines(sheet: worksheet, db_file_name: str, start_line: int, chapter_code: str, period: int) -> bool:
     """
-    Записывает информацию из каталога Машин главе chapter для периода period на лист sheet начиная со строки start_line.
+    Выводит информацию по главе chapter из таблиц по Машинам,
+    Для периода period на лист sheet начиная со строки start_line.
     """
     with dbControl(db_file_name) as db:
         # ищем в БД главу с указанным кодом и периодом
@@ -64,14 +67,16 @@ def chapter_machines_output(sheet: worksheet, db_file_name: str, start_line: int
         if result:
             chapters = result.fetchall()
             if chapters:
-                # берем первую найденную
+                # берем первую найденную главу
                 chapter = chapters[0]
                 # выводим главу
-                row = item_machines_output(sheet, chapter, start_line)
+                row = output_machine_catalog_object(sheet, chapter, start_line)
                 chapter_id = chapter["ID_tblMachinesCatalog"]
-                row = _slaves_machines_output(sheet, db, chapter_id, start_row=row)
-                ic(chapter_id, tuple(chapter))
-                row = _slaves_item_output(sheet, db, chapter_id, start_row=row)
+                # выводим Машины у которых родитель эта глава
+                row = _output_slave_machines(sheet, db, chapter_id, start_row=row)
+                # ic(chapter_id, tuple(chapter))
+                # выводим подчиненные объекты каталога
+                row = _output_slave_catalog_object(sheet, db, chapter_id, start_row=row)
                 return True
             else:
                 output_message_exit(f"в каталоге МАШИН для периода {period} не найдено главы:",
