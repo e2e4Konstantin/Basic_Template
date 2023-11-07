@@ -18,7 +18,8 @@ if __name__ == '__main__':
     output_file_name = r".\output\template.xlsx"
     root, ext = os.path.splitext(output_file_name)
     excel_file_name = f"{root}_{chapter}_{period}-{datetime.date.today().strftime('%d-%m-%Y')}{ext}"
-    db_file_name = r".\src\Quotes_machines.sqlite"
+    # db_file_name = r".\src\Quotes_machines.sqlite"
+    db_file_name = r"C:\Users\kazak.ke\PycharmProjects\development\Quotes_parsing_SQLite\output\Quotes.sqlite"
 
     print(f"Создание шаблона по Машинам. Период: {period} Глава: {chapter!r} Файл: {excel_file_name}")
     create_basic_machines_template(db_file_name, excel_file_name, chapter, period)

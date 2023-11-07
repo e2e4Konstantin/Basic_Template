@@ -88,6 +88,7 @@ alignments = {
     "machine_line": Alignment(horizontal='left', vertical='bottom', wrap_text=False, shrink_to_fit=False, indent=0),
 
     "right_alignment": Alignment(horizontal='right', vertical='bottom', wrap_text=False, shrink_to_fit=False, indent=0),
+    "left_alignment": Alignment(horizontal='left', vertical='bottom', wrap_text=False, shrink_to_fit=False, indent=0),
     "center_alignment": Alignment(horizontal='center', vertical='bottom', wrap_text=False, shrink_to_fit=False,
                                   indent=0),
     "title_attributes": Alignment(horizontal='left', vertical='bottom', wrap_text=False, shrink_to_fit=False, indent=0),

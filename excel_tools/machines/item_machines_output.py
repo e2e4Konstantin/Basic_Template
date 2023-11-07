@@ -83,6 +83,9 @@ def machine_line_output(data: sqlite3.Row, sheet: worksheet, row: int, group_num
     sheet.cell(row=row, column=column_index_from_string('F')).value = data['measure']      # измеритель
     sheet.cell(row=row, column=column_index_from_string('G')).value = data['okp']
 
+    stat = data['statistics'] if data['statistics'] != 0 else ""
+    sheet.cell(row=row, column=column_index_from_string('H')).value = stat   # статистика
+
     for column in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']:
         sheet.cell(row=row, column=column_index_from_string(column)).style = 'machine_line'
         sheet.cell(row=row, column=column_index_from_string(column)).number_format = numbers.FORMAT_TEXT
@@ -93,6 +96,7 @@ def machine_line_output(data: sqlite3.Row, sheet: worksheet, row: int, group_num
 
     sheet.cell(row=row, column=column_index_from_string('G')).alignment = alignments["right_alignment"]
     sheet.cell(row=row, column=column_index_from_string('I')).alignment = alignments["center_alignment"]
+    sheet.cell(row=row, column=column_index_from_string('H')).alignment = alignments["right_alignment"]
 
     sheet.cell(row=row, column=column_index_from_string('D')).font = fonts["bold_font"]
     sheet.cell(row=row, column=column_index_from_string('F')).font = fonts["measure_font"]
